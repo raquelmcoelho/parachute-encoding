@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="i18n">
+<file alias="parachute-encoder_en_150.qm">/home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.qm/parachute-encoder_en_150.qm</file>
+<file alias="parachute_encoder_fr_FR.qm">/home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.qm/parachute_encoder_fr_FR.qm</file>
+<file alias="parachute_encoder_pt_BR.qm">/home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.qm/parachute_encoder_pt_BR.qm</file>
+</qresource>
+</RCC>

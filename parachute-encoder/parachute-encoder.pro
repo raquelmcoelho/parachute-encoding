@@ -19,7 +19,9 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
-    parachute-encoder_en_150.ts
+    parachute-encoder_en_150.ts \
+    parachute_encoder_fr_FR.ts \
+    parachute_encoder_pt_BR.ts
 CONFIG += lrelease
 CONFIG += embed_translations
 
