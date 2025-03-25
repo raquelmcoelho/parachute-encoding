@@ -10,10 +10,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    parachutewidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    parachutewidget.h
 
 FORMS += \
     mainwindow.ui

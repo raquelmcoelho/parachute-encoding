@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QLabel>
+#include <qlabel.h>>
+#include <parachutewidget.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QLabel *label = new QLabel(tr("Hello, World!"));
-    this->setCentralWidget(label);
+    ParachuteWidget *p = new ParachuteWidget(this);
+    this->setCentralWidget(p);
 }
 
 MainWindow::~MainWindow()

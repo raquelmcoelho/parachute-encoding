@@ -53,12 +53,16 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../main.cpp \
-		../../mainwindow.cpp qrc_qmake_qmake_qm_files.cpp \
-		moc_mainwindow.cpp
+		../../mainwindow.cpp \
+		../../parachutewidget.cpp qrc_qmake_qmake_qm_files.cpp \
+		moc_mainwindow.cpp \
+		moc_parachutewidget.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		parachutewidget.o \
 		qrc_qmake_qmake_qm_files.o \
-		moc_mainwindow.o
+		moc_mainwindow.o \
+		moc_parachutewidget.o
 DIST          = /home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/raquel/Qt/6.5.3/gcc_64/mkspecs/common/unix.conf \
 		/home/raquel/Qt/6.5.3/gcc_64/mkspecs/common/linux.conf \
@@ -210,8 +214,10 @@ DIST          = /home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/exceptions.prf \
 		/home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/yacc.prf \
 		/home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/lex.prf \
-		../../../../parachute-encoder.pro ../../mainwindow.h ../../main.cpp \
-		../../mainwindow.cpp
+		../../../../parachute-encoder.pro ../../mainwindow.h \
+		../../parachutewidget.h ../../main.cpp \
+		../../mainwindow.cpp \
+		../../parachutewidget.cpp
 QMAKE_TARGET  = parachute-encoder
 DESTDIR       = 
 TARGET        = parachute-encoder
@@ -553,8 +559,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents ../../parachute-encoder_en_150.ts ../../parachute_encoder_fr_FR.ts ../../parachute_encoder_pt_BR.ts $(DISTDIR)/
 	$(COPY_FILE) --parents qmake_qmake_qm_files.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.h ../../parachutewidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../parachutewidget.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
 	$(COPY_FILE) --parents ../../parachute-encoder_en_150.ts ../../parachute_encoder_fr_FR.ts ../../parachute_encoder_pt_BR.ts $(DISTDIR)/
 
@@ -608,9 +614,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /home/raquel/Qt/6.5.3/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_parachutewidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_parachutewidget.cpp
 moc_mainwindow.cpp: ../../mainwindow.h \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -773,6 +779,167 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		moc_predefs.h \
 		/home/raquel/Qt/6.5.3/gcc_64/libexec/moc
 	/home/raquel/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/home/raquel/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder -I/home/raquel/Qt/6.5.3/gcc_64/include -I/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets -I/home/raquel/Qt/6.5.3/gcc_64/include/QtGui -I/home/raquel/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
+
+moc_parachutewidget.cpp: ../../parachutewidget.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QWidget \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qwidget.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qconfig.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtcore-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtnoop.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qassert.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtypes.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtversion.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsysinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qlogging.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qflags.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qforeach.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qttypetraits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmalloc.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qminmax.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnumeric.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qoverload.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qswap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtresource.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qttranslation.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qversiontagging.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtgui-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtguiexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnamespace.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobject.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstring.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qchar.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearray.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qrefcount.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydata.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpair.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydataops.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringfwd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/q20type_traits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringliteral.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qanystringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qlist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiterator.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringlist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcoreevent.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmetatype.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompare.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdatastream.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfloat16.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmath.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiterable.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qscopeguard.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobject_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmargins.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qaction.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qkeysequence.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qicon.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsize.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpixmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qrect.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpoint.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qcolor.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qrgb.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qrgba64.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qshareddata.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qimage.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpixelformat.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtransform.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpolygon.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qregion.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qline.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qvariant.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdebug.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtextstream.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qset.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qhash.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/q20memory.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpalette.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qbrush.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfont.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfontinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qcursor.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qbitmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qevent.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiodevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qurl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qeventpoint.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qvector2d.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qvectornd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qinputdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qscreen.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QList \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QObject \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QRect \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QSize \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QSizeF \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/QTransform \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
+		moc_predefs.h \
+		/home/raquel/Qt/6.5.3/gcc_64/libexec/moc
+	/home/raquel/Qt/6.5.3/gcc_64/libexec/moc $(DEFINES) --include /home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/moc_predefs.h -I/home/raquel/Qt/6.5.3/gcc_64/mkspecs/linux-g++ -I/home/raquel/Documents/2Semester/graphic-interface/tp4-project/parachute-encoder -I/home/raquel/Qt/6.5.3/gcc_64/include -I/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets -I/home/raquel/Qt/6.5.3/gcc_64/include/QtGui -I/home/raquel/Qt/6.5.3/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../parachutewidget.h -o moc_parachutewidget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1141,47 +1308,185 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtabwidget.h \
 		ui_mainwindow.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QVariant \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QApplication \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qapplication.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qeventloop.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfuture.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfutureinterface.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmutex.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtsan_impl.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qresultstore.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfuture_impl.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qthreadpool.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qthread.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdeadlinetimer.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qelapsedtimer.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qrunnable.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qexception.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpromise.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qguiapplication.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qinputmethod.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qlocale.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qguiapplication_platform.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QMenuBar \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qmenubar.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qmenu.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QStatusBar \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QWidget \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QLabel \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qlabel.h \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qframe.h \
 		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpicture.h \
-		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtextdocument.h
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtextdocument.h \
+		../../parachutewidget.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
+
+parachutewidget.o: ../../parachutewidget.cpp ../../parachutewidget.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/QWidget \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qwidget.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qglobal.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qconfig.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtcore-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtnoop.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qassert.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtypes.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtversion.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsysinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qlogging.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qflags.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qforeach.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qttypetraits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmalloc.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qminmax.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnumeric.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qoverload.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qswap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtresource.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qttranslation.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qversiontagging.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtgui-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtguiexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnamespace.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobject.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstring.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qchar.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearray.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qrefcount.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydata.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpair.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qarraydataops.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringfwd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/q20type_traits.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringliteral.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qanystringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qlist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiterator.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringlist.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qalgorithms.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcoreevent.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmetatype.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcompare.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdatastream.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qfloat16.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmath.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiterable.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qscopeguard.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qobject_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmargins.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qaction.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qkeysequence.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qicon.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsize.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpixmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qrect.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpoint.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qcolor.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qrgb.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qrgba64.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qshareddata.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qimage.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpixelformat.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtransform.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpolygon.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qregion.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qline.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qvariant.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qdebug.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qtextstream.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qset.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qhash.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/q20memory.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpalette.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qbrush.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfont.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qfontinfo.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qcursor.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qbitmap.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qevent.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qiodevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qpointer.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qurl.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qeventpoint.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qvector2d.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qvectornd.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qinputdevice.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qscreen.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QList \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QObject \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QRect \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QSize \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/QSizeF \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/QTransform \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/QPainter \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpainter.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qtextoption.h \
+		/home/raquel/Qt/6.5.3/gcc_64/include/QtGui/qpen.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parachutewidget.o ../../parachutewidget.cpp
 
 qrc_qmake_qmake_qm_files.o: qrc_qmake_qmake_qm_files.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qmake_qmake_qm_files.o qrc_qmake_qmake_qm_files.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_parachutewidget.o: moc_parachutewidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_parachutewidget.o moc_parachutewidget.cpp
 
 ####### Install
 
