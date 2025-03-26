@@ -3,28 +3,98 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
+   <rect><x>0</x><y>0</y><width>800</width><height>600</height></rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Parachute Encoder</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="imageLayout">
+      <item>
+       <widget class="QLabel" name="circleLabel">
+        <property name="minimumSize">
+         <size><width>300</width><height>300</height></size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string>Círculo Codificado</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="trapezoidLabel">
+        <property name="minimumSize">
+         <size><width>300</width><height>300</height></size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string>Trapezoides</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="controlsLayout">
+      <item>
+       <widget class="QLineEdit" name="messageInput">
+        <property name="placeholderText">
+         <string>Insira a mensagem binária (ex: 010101)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="colorButton">
+        <property name="text">
+         <string>Escolher Cor do Bit 1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="encodeButton">
+        <property name="text">
+         <string>Codificar</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>23</height>
-    </rect>
+    <rect><x>0</x><y>0</y><width>800</width><height>21</height></rect>
    </property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="title"><string>Arquivo</string></property>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title"><string>Ajuda</string></property>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuArquivo"/>
+   <addaction name="menuAjuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSair">
+   <property name="text"><string>Sair</string></property>
+  </action>
+  <action name="actionSobre">
+   <property name="text"><string>Sobre</string></property>
+  </action>
  </widget>
  <resources/>
  <connections/>
