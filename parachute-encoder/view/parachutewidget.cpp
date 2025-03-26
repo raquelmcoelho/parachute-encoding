@@ -16,6 +16,12 @@ QString ParachuteWidget::encodeMessage()
     return binary_sequence;
 }
 
+void ParachuteWidget::setBitOneColor(QColor color)
+{
+    bitOneColor = color;
+    update();
+}
+
 void ParachuteWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -38,7 +44,7 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
         double start_angle = sector * angle_step;
         double end_angle = (sector + 1) * angle_step;
 
-        QColor color = (encoded_bits[i] == '1') ? Qt::black : Qt::white;
+        QColor color = (encoded_bits[i] == '1') ? bitOneColor : Qt::white;
         painter.setBrush(color);
         painter.setPen(Qt::black);
 
@@ -57,4 +63,3 @@ QPointF ParachuteWidget::polarToCartesian(QPointF center, double radius, double 
     double rad = qDegreesToRadians(angle);
     return QPointF(center.x() + radius * cos(rad), center.y() - radius * sin(rad));
 }
-

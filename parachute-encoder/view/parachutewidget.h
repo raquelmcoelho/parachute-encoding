@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <cmath>
 #include <QString>
+#include <QColor>
 
 class ParachuteWidget : public QWidget
 {
@@ -18,14 +19,17 @@ class ParachuteWidget : public QWidget
 
 private:
     QString encoded_bits;
+    QColor bitOneColor = Qt::black;
 
 public:
     QString message;
     int sectors;
     int tracks;
+
     ParachuteWidget(QString msg = "ENSICAEN_RULES", int sec = 21, int trk = 5, QWidget *parent = nullptr);
 
     QString encodeMessage();
+    void setBitOneColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

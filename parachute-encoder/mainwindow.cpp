@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     track_slider->setValue(5);
     connect(track_slider, &QSlider::valueChanged, this, &MainWindow::updateTracks);
 
-    // Controles inferiores
+    // Down-site controls
     QLineEdit* messageInput = new QLineEdit;
     messageInput->setPlaceholderText("Insira a mensagem binária (ex: 010101)");
 
@@ -51,15 +51,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QPushButton* encodeButton = new QPushButton("Codificar");
 
     connect(colorButton, &QPushButton::clicked, this, [this]() {
-        QColor chosen = QColorDialog::getColor(Qt::red, this, "Escolha a cor para o bit 1");
+        QColor chosen = QColorDialog::getColor(bitOneColor, this, "Escolha a cor para o bit 1");
         if (chosen.isValid()) {
             bitOneColor = chosen;
+            parachute_widget->setBitOneColor(chosen);
         }
     });
 
     connect(encodeButton, &QPushButton::clicked, this, [messageInput]() {
         QString message = messageInput->text();
-        // Aqui você pode validar e enviar para o Presenter/Model
         QMessageBox::information(nullptr, "Mensagem", "Mensagem binária: " + message);
     });
 
@@ -96,7 +96,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 void MainWindow::updateSectors(int value)
 {
-    parachute_widget->sectors = value;
+    int adjusted = (value / 7) * 7;
+    if (adjusted < 7) adjusted = 7;
+
+    sector_slider->blockSignals(true);
+    sector_slider->setValue(adjusted);
+    sector_slider->blockSignals(false);
+
+    parachute_widget->sectors = adjusted;
     parachute_widget->update();
 }
 
