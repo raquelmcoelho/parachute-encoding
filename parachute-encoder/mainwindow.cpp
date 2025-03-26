@@ -17,11 +17,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     resize(800, 600);
 
     parachute_widget = new ParachuteWidget();
-    sector_slider = new QSlider(Qt::Horizontal);
-    sector_slider->setMinimum(7);
-    sector_slider->setMaximum(35);
-    sector_slider->setValue(21);
-    connect(sector_slider, &QSlider::valueChanged, this, &MainWindow::updateSectors);;
 
     QLabel* trapezoidLabel = new QLabel("Trapezoides");
     trapezoidLabel->setMinimumSize(300, 300);
@@ -43,13 +38,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     track_slider->setValue(5);
     connect(track_slider, &QSlider::valueChanged, this, &MainWindow::updateTracks);
 
-    // Down-site controls
-    QLineEdit* messageInput = new QLineEdit;
-    messageInput->setPlaceholderText("Insira a mensagem binária (ex: 010101)");
+    // Entrada de mensagem
+    messageInput = new QLineEdit;
+    messageInput->setPlaceholderText("Insira a mensagem (ex: ENSICAEN)");
 
+    // Entrada de caractere inicial
+    startCharInput = new QLineEdit;
+    startCharInput->setPlaceholderText("Caractere inicial (padrão: @)");
+    startCharInput->setMaxLength(1);
+
+    // Botões
     QPushButton* colorButton = new QPushButton("Escolher Cor do Bit 1");
     QPushButton* encodeButton = new QPushButton("Codificar");
+    QPushButton* applyCharButton = new QPushButton("Aplicar caractere");
 
+    // Conexões
     connect(colorButton, &QPushButton::clicked, this, [this]() {
         QColor chosen = QColorDialog::getColor(bitOneColor, this, "Escolha a cor para o bit 1");
         if (chosen.isValid()) {
@@ -58,15 +61,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         }
     });
 
-    connect(encodeButton, &QPushButton::clicked, this, [messageInput]() {
+    connect(encodeButton, &QPushButton::clicked, this, [this]() {
         QString message = messageInput->text();
-        QMessageBox::information(nullptr, "Mensagem", "Mensagem binária: " + message);
+        parachute_widget->setMessage(message);
     });
 
+    connect(applyCharButton, &QPushButton::clicked, this, [this]() {
+        QString ch = startCharInput->text();
+        if (!ch.isEmpty()) {
+            parachute_widget->setStartChar(ch.at(0));
+        }
+    });
+
+    // Layouts de controle
     QHBoxLayout* controlsLayout = new QHBoxLayout;
     controlsLayout->addWidget(messageInput);
     controlsLayout->addWidget(colorButton);
     controlsLayout->addWidget(encodeButton);
+
+    QHBoxLayout* charLayout = new QHBoxLayout;
+    charLayout->addWidget(startCharInput);
+    charLayout->addWidget(applyCharButton);
 
     // Layout final
     QVBoxLayout* layout = new QVBoxLayout;
@@ -76,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     layout->addWidget(new QLabel("Pistas"));
     layout->addWidget(track_slider);
     layout->addLayout(controlsLayout);
+    layout->addLayout(charLayout);
 
     QWidget* container = new QWidget;
     container->setLayout(layout);
@@ -92,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(aboutAction, &QAction::triggered, this, []() {
         QMessageBox::about(nullptr, "Sobre", "Parachute Encoder v1.0\nDesenvolvido por Vinicius.");
     });
+    helpMenu->addAction(aboutAction);
 }
 
 void MainWindow::updateSectors(int value)
@@ -112,4 +129,3 @@ void MainWindow::updateTracks(int value)
     parachute_widget->tracks = value;
     parachute_widget->update();
 }
-

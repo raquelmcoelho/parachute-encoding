@@ -20,6 +20,7 @@ class ParachuteWidget : public QWidget
 private:
     QString encoded_bits;
     QColor bitOneColor = Qt::black;
+    QChar startChar = '@';
 
 public:
     QString message;
@@ -30,6 +31,9 @@ public:
 
     QString encodeMessage();
     void setBitOneColor(QColor color);
+
+    void setMessage(const QString& newMessage);
+    void setStartChar(QChar c);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -9,6 +9,9 @@ ParachuteWidget::ParachuteWidget(QString msg, int sec, int trk, QWidget *parent)
 QString ParachuteWidget::encodeMessage()
 {
     QString binary_sequence;
+
+    binary_sequence += QString::number(startChar.unicode() - 64, 2).rightJustified(7, '0');
+
     for (QChar c : message)
     {
         binary_sequence += QString::number(c.unicode() - 64, 2).rightJustified(7, '0');
@@ -19,7 +22,7 @@ QString ParachuteWidget::encodeMessage()
 void ParachuteWidget::setBitOneColor(QColor color)
 {
     bitOneColor = color;
-    update();
+    update(); // Re-renderizar o paraquedas
 }
 
 void ParachuteWidget::paintEvent(QPaintEvent *event)
@@ -35,7 +38,9 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
     double angle_step = 360.0 / sectors;
     double track_height = radius / tracks;
 
-    for (int i = 0; i < std::min(sectors * tracks, static_cast<int>(encoded_bits.size())); ++i)
+    int total_segments = sectors * tracks;
+
+    for (int i = 0; i < total_segments; ++i)
     {
         int track = i / sectors;
         int sector = i % sectors;
@@ -44,7 +49,14 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
         double start_angle = sector * angle_step;
         double end_angle = (sector + 1) * angle_step;
 
-        QColor color = (encoded_bits[i] == '1') ? bitOneColor : Qt::white;
+        QColor color;
+
+        if (i < encoded_bits.size()) {
+            color = (encoded_bits[i] == '1') ? bitOneColor : Qt::white;
+        } else {
+            color = Qt::white; // Cor padrão para "sem dado"
+        }
+
         painter.setBrush(color);
         painter.setPen(Qt::black);
 
@@ -56,6 +68,20 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
 
         painter.drawPolygon(polygon);
     }
+}
+
+void ParachuteWidget::setMessage(const QString& newMessage)
+{
+    message = newMessage;
+    encoded_bits = encodeMessage();
+    update();
+}
+
+void ParachuteWidget::setStartChar(QChar c)
+{
+    startChar = c;
+    encoded_bits = encodeMessage();
+    update();
 }
 
 QPointF ParachuteWidget::polarToCartesian(QPointF center, double radius, double angle)

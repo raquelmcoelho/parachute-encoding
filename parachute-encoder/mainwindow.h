@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSlider>
 #include <QColor>
+#include <QLineEdit>
 
 class ParachuteWidget; // Se você usar um personalizado
 
@@ -23,6 +24,10 @@ private:
     QSlider* sector_slider;
     QSlider* track_slider;
     QColor bitOneColor = Qt::red;
+
+    QLineEdit* messageInput;
+    QLineEdit* startCharInput;
+
 };
 
 #endif // MAINWINDOW_H
