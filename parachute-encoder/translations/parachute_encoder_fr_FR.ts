@@ -5,13 +5,13 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <source>Fenêtre Principale</source>
-        <translation type="unfinished"></translation>
+        <source>MainWindow</source>
+        <translation type="unfinished">Fenêtre Principale</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="11"/>
-        <source>Bonjour le monde!</source>
-        <translation type="unfinished"></translation>
+        <source>Hello, World!</source>
+        <translation type="unfinished">Bonjour le monde!</translation>
     </message>
 </context>
 </TS>

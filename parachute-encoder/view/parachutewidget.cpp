@@ -1,4 +1,4 @@
-#include <parachutewidget.h>
+#include <view/parachutewidget.h>
 
 ParachuteWidget::ParachuteWidget(QString msg, int sec, int trk, QWidget *parent)
     : QWidget(parent), message(msg), sectors(sec), tracks(trk)

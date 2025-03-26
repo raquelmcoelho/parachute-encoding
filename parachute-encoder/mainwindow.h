@@ -12,7 +12,7 @@
 #include <QLabel>
 #include <cmath>
 #include <QString>
-#include <parachutewidget.h>
+#include <view/parachutewidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

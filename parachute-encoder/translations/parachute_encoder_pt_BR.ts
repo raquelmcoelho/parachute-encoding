@@ -6,12 +6,12 @@
     <message>
         <location filename="mainwindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="Janela Principal"></translation>
+        <translation type="unfinished">Janela Principal</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="11"/>
-        <source>Ola, Mundo!</source>
-        <translation type="unfinished"></translation>
+        <source>Hello, World!</source>
+        <translation type="unfinished">Ola, Mundo!</translation>
     </message>
 </context>
 </TS>

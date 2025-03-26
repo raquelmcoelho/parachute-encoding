@@ -11,19 +11,27 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    parachutewidget.cpp
+    model/parachutemodel.cpp \
+    presenter/parachutepresenter.cpp \
+    view/parachutewidget.cpp \
+    model/parachutemodel.cpp \
+    presenter/parachutepresenter.cpp
 
 HEADERS += \
     mainwindow.h \
-    parachutewidget.h
+    model/parachutemodel.h \
+    presenter/parachutepresenter.h \
+    view/parachutewidget.h \
+    model/parachutemodel.h \
+    presenter/parachutepresenter.h
 
 FORMS += \
-    mainwindow.ui
+    view/mainwindow.ui
 
 TRANSLATIONS += \
-    parachute_encoder_en_150.ts \
-    parachute_encoder_fr_FR.ts \
-    parachute_encoder_pt_BR.ts
+    translations/parachute_encoder_en_150.ts \
+    translations/parachute_encoder_fr_FR.ts \
+    translations/parachute_encoder_pt_BR.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations
