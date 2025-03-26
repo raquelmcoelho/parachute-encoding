@@ -1,61 +1,60 @@
-#include "parachutewidget.h"
+#include <parachutewidget.h>
 
-#include <QPainter>
-
-ParachuteWidget::ParachuteWidget(QWidget *parent)
-    : QWidget{parent}
+ParachuteWidget::ParachuteWidget(QString msg, int sec, int trk, QWidget *parent)
+    : QWidget(parent), message(msg), sectors(sec), tracks(trk)
 {
-    this->message = "ENSICAEN_RULES";
-    this->sectors = 21;
-    this->tracks = 5;
-    this->encoded_bits = this->encode_message(this->message);
+    this->encoded_bits = encodeMessage();
 }
 
-QString ParachuteWidget::encode_message(const QString &message)
+QString ParachuteWidget::encodeMessage()
 {
     QString binary_sequence;
-    for (const QChar &c : message)
+    for (QChar c : message)
     {
-        binary_sequence.append(QString::number(c.unicode() - 64, 2).rightJustified(7, '0'));
+        binary_sequence += QString::number(c.unicode() - 64, 2).rightJustified(7, '0');
     }
     return binary_sequence;
 }
 
-// void ParachuteWidget::paintEvent(QPaintEvent *event) {
-//     QPainter painter(this);
-//     painter.setRenderHint(QPainter::Antialiasing);
+void ParachuteWidget::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
 
-//     int width = this->width();
-//     int height = this->height();
-//     QPointF center{static_cast<qreal>(width / 2), static_cast<qreal>(height / 2)};
-//     qreal radius = std::min(width, height) / 2 - 10;
+    int width = this->width();
+    int height = this->height();
+    QPointF center(width / 2, height / 2);
+    double radius = std::min(width, height) / 2 - 10;
 
-//     qreal angle_step = 360 / this->sectors;
-//     qreal track_height = radius / this->tracks;
+    double angle_step = 360.0 / sectors;
+    double track_height = radius / tracks;
 
-//     for (int i = 0; i < this->sectors * this->tracks; i++) {
-//         int track = i / this->sectors;
-//         int sector = i % this->sectors;
-//         qreal inner_radius = track * track_height;
-//         qreal outer_radius = (track + 1) * track_height;
-//         qreal start_angle = sector * angle_step;
-//         qreal end_angle = (sector + 1) * angle_step;
+    for (int i = 0; i < std::min(sectors * tracks, static_cast<int>(encoded_bits.size())); ++i)
+    {
+        int track = i / sectors;
+        int sector = i % sectors;
+        double inner_radius = track * track_height;
+        double outer_radius = (track + 1) * track_height;
+        double start_angle = sector * angle_step;
+        double end_angle = (sector + 1) * angle_step;
 
-//         QColor color = this->encoded_bits[i] == '1' ? Qt::black : Qt::white;
-//         painter.setBrush(color);
-//         painter.setPen(Qt::black);
+        QColor color = (encoded_bits[i] == '1') ? Qt::black : Qt::white;
+        painter.setBrush(color);
+        painter.setPen(Qt::black);
 
-//         QPolygonF polygon{
-//                           this->polar_to_cartesian(center, inner_radius, start_angle),
-//             this->polar_to_cartesian(center, inner_radius, end_angle),
-//             this->polar_to_cartesian(center, outer_radius, end_angle),
-//             this->polar_to_cartesian(center, outer_radius, start_angle)};
-//         painter.drawPolygon(polygon);
-//     }
-// }
+        QPolygonF polygon;
+        polygon << polarToCartesian(center, inner_radius, start_angle)
+                << polarToCartesian(center, inner_radius, end_angle)
+                << polarToCartesian(center, outer_radius, end_angle)
+                << polarToCartesian(center, outer_radius, start_angle);
 
-QPointF ParachuteWidget::polar_to_cartesian(const QPointF &center, qreal radius, qreal angle) {
-    qreal rad = qDegreesToRadians(angle);
-    return QPointF(center.x() + radius * qCos(rad), center.y() - radius * qSin(rad));
+        painter.drawPolygon(polygon);
+    }
+}
+
+QPointF ParachuteWidget::polarToCartesian(QPointF center, double radius, double angle)
+{
+    double rad = qDegreesToRadians(angle);
+    return QPointF(center.x() + radius * cos(rad), center.y() - radius * sin(rad));
 }
 
