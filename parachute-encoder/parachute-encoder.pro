@@ -15,7 +15,8 @@ SOURCES += \
     presenter/parachutepresenter.cpp \
     view/parachutewidget.cpp \
     model/parachutemodel.cpp \
-    presenter/parachutepresenter.cpp
+    presenter/parachutepresenter.cpp \
+    view/pointswidget.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -23,7 +24,8 @@ HEADERS += \
     presenter/parachutepresenter.h \
     view/parachutewidget.h \
     model/parachutemodel.h \
-    presenter/parachutepresenter.h
+    presenter/parachutepresenter.h \
+    view/pointswidget.h
 
 FORMS += \
     view/mainwindow.ui

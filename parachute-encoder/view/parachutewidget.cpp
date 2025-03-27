@@ -1,4 +1,5 @@
 #include <view/parachutewidget.h>
+#define OFFSET 10
 
 ParachuteWidget::ParachuteWidget(QString msg, int sec, int trk, QWidget *parent)
     : QWidget(parent), message(msg), sectors(sec), tracks(trk)
@@ -10,11 +11,9 @@ QString ParachuteWidget::encodeMessage()
 {
     QString binary_sequence;
 
-    binary_sequence += QString::number(startChar.unicode() - 64, 2).rightJustified(7, '0');
-
     for (QChar c : message)
     {
-        binary_sequence += QString::number(c.unicode() - 64, 2).rightJustified(7, '0');
+        binary_sequence += QString::number(c.unicode() - startChar.unicode(), 2).rightJustified(7, '0');
     }
     return binary_sequence;
 }
@@ -33,9 +32,11 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
     int width = this->width();
     int height = this->height();
     QPointF center(width / 2, height / 2);
-    double radius = std::min(width, height) / 2 - 10;
+    double radius = std::min(width, height) / 2 - OFFSET;
 
-    double angle_step = 360.0 / sectors;
+    // sector - triangular division which resembles a slice of pizza
+    // tracks- amount of circles
+    double angle_step = -360.0 / sectors;
     double track_height = radius / tracks;
 
     int total_segments = sectors * tracks;
@@ -61,10 +62,10 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
         painter.setPen(Qt::black);
 
         QPolygonF polygon;
-        polygon << polarToCartesian(center, inner_radius, start_angle)
-                << polarToCartesian(center, inner_radius, end_angle)
+        polygon << polarToCartesian(center, outer_radius, start_angle)
                 << polarToCartesian(center, outer_radius, end_angle)
-                << polarToCartesian(center, outer_radius, start_angle);
+                << polarToCartesian(center, inner_radius, end_angle)
+                << polarToCartesian(center, inner_radius, start_angle);
 
         painter.drawPolygon(polygon);
     }

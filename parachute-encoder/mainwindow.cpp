@@ -9,23 +9,40 @@
 #include <QLineEdit>
 #include <QColorDialog>
 #include <QMessageBox>
-#include "view/parachutewidget.h"
+#include <QTranslator>
+#include <QLocale>
+#include <QApplication>
+#include <QScrollArea>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    setWindowTitle("Parachute Encoder");
+    setWindowTitle(tr("Parachute Encoder"));
     resize(800, 600);
 
-    parachute_widget = new ParachuteWidget();
-
-    QLabel* trapezoidLabel = new QLabel("Trapezoides");
-    trapezoidLabel->setMinimumSize(300, 300);
-    trapezoidLabel->setFrameShape(QFrame::Box);
-    trapezoidLabel->setAlignment(Qt::AlignCenter);
-
     QHBoxLayout* imageLayout = new QHBoxLayout;
-    imageLayout->addWidget(parachute_widget);
-    imageLayout->addWidget(trapezoidLabel);
+
+
+    QWidget* code_container = new QWidget();
+    QHBoxLayout* containerLayout = new QHBoxLayout(code_container);
+
+    // Adicionar o parachute_widget primeiro
+    parachute_widget = new ParachuteWidget();
+    parachute_widget->setMinimumSize(300, 300); // Garante que ele tenha um tamanho fixo
+    containerLayout->addWidget(parachute_widget);
+
+    // Criar a área de rolagem e adicionar o PointsWidget
+    points_widget = new PointsWidget();
+    QScrollArea* scrollArea = new QScrollArea;
+    scrollArea->setWidget(points_widget);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setMinimumWidth(300); // Evita que ele tome todo o espaço
+    containerLayout->addWidget(scrollArea);
+
+    // Adicionar esse container ao layout principal
+    imageLayout->addWidget(code_container);
+
+
+
 
     // Sliders
     sector_slider = new QSlider(Qt::Horizontal);
@@ -40,21 +57,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     // Entrada de mensagem
     messageInput = new QLineEdit;
-    messageInput->setPlaceholderText("Insira a mensagem (ex: ENSICAEN)");
+    messageInput->setPlaceholderText(tr("Insira a mensagem (ex: ENSICAEN)"));
 
     // Entrada de caractere inicial
     startCharInput = new QLineEdit;
-    startCharInput->setPlaceholderText("Caractere inicial (padrão: @)");
+    startCharInput->setPlaceholderText(tr("Caractere inicial (padrão: @)"));
     startCharInput->setMaxLength(1);
 
     // Botões
-    QPushButton* colorButton = new QPushButton("Escolher Cor do Bit 1");
-    QPushButton* encodeButton = new QPushButton("Codificar");
-    QPushButton* applyCharButton = new QPushButton("Aplicar caractere");
+    QPushButton* colorButton = new QPushButton(tr("Escolher Cor do Bit 1"));
+    QPushButton* encodeButton = new QPushButton(tr("Codificar"));
+    QPushButton* applyCharButton = new QPushButton(tr("Aplicar caractere"));
 
     // Conexões
     connect(colorButton, &QPushButton::clicked, this, [this]() {
-        QColor chosen = QColorDialog::getColor(bitOneColor, this, "Escolha a cor para o bit 1");
+        QColor chosen = QColorDialog::getColor(bitOneColor, this, tr("Escolha a cor para o bit 1"));
         if (chosen.isValid()) {
             bitOneColor = chosen;
             parachute_widget->setBitOneColor(chosen);
@@ -86,9 +103,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Layout final
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addLayout(imageLayout);
-    layout->addWidget(new QLabel("Setores"));
+    layout->addWidget(new QLabel(tr("Setores")));
     layout->addWidget(sector_slider);
-    layout->addWidget(new QLabel("Pistas"));
+    layout->addWidget(new QLabel(tr("Pistas")));
     layout->addWidget(track_slider);
     layout->addLayout(controlsLayout);
     layout->addLayout(charLayout);
@@ -98,15 +115,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(container);
 
     // Menu
-    QMenu* fileMenu = menuBar()->addMenu("Arquivo");
-    QAction* exitAction = new QAction("Sair", this);
+    QMenu* fileMenu = menuBar()->addMenu(tr("Arquivo"));
+    QAction* exitAction = new QAction(tr("Sair"), this);
     connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
     fileMenu->addAction(exitAction);
 
-    QMenu* helpMenu = menuBar()->addMenu("Ajuda");
-    QAction* aboutAction = new QAction("Sobre", this);
+    QMenu* languageMenu = menuBar()->addMenu(tr("Idioma"));
+    QAction* englishAction = new QAction("English", this);
+    QAction* portugueseAction = new QAction("Português", this);
+    QAction* frenchAction = new QAction("Français", this);
+
+    connect(englishAction, &QAction::triggered, this, [this]() { changeLanguage("en"); });
+    connect(portugueseAction, &QAction::triggered, this, [this]() { changeLanguage("pt"); });
+    connect(frenchAction, &QAction::triggered, this, [this]() { changeLanguage("fr"); });
+
+    languageMenu->addAction(englishAction);
+    languageMenu->addAction(portugueseAction);
+    languageMenu->addAction(frenchAction);
+
+    QMenu* helpMenu = menuBar()->addMenu(tr("Ajuda"));
+    QAction* aboutAction = new QAction(tr("Sobre"), this);
     connect(aboutAction, &QAction::triggered, this, []() {
-        QMessageBox::about(nullptr, "Sobre", "Parachute Encoder v1.0\nDesenvolvido por Vinicius.");
+        QMessageBox::about(nullptr, tr("Sobre"), tr("Parachute Encoder v1.0\nDesenvolvido por Vinicius."));
     });
     helpMenu->addAction(aboutAction);
 }
@@ -128,4 +158,14 @@ void MainWindow::updateTracks(int value)
 {
     parachute_widget->tracks = value;
     parachute_widget->update();
+}
+
+void MainWindow::changeLanguage(const QString& locale)
+{
+    static QTranslator translator;
+    qApp->removeTranslator(&translator);
+    if (translator.load(":/translations/parachute_" + locale + ".ts")) {
+        qApp->installTranslator(&translator);
+    }
+    setWindowTitle(tr("Parachute Encoder"));
 }

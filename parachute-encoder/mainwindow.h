@@ -5,8 +5,9 @@
 #include <QSlider>
 #include <QColor>
 #include <QLineEdit>
+#include "view/parachutewidget.h"
+#include "view/pointswidget.h"
 
-class ParachuteWidget; // Se você usar um personalizado
 
 class MainWindow : public QMainWindow
 {
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void changeLanguage(const QString& locale);
 
 private slots:
     void updateSectors(int value);
@@ -21,6 +23,7 @@ private slots:
 
 private:
     ParachuteWidget* parachute_widget;
+    PointsWidget* points_widget;
     QSlider* sector_slider;
     QSlider* track_slider;
     QColor bitOneColor = Qt::red;
