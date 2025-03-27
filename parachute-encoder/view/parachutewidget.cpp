@@ -21,7 +21,7 @@ QString ParachuteWidget::encodeMessage()
 void ParachuteWidget::setBitOneColor(QColor color)
 {
     bitOneColor = color;
-    update(); // Re-renderizar o paraquedas
+    update();
 }
 
 void ParachuteWidget::paintEvent(QPaintEvent *event)
@@ -55,7 +55,7 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
         if (i < encoded_bits.size()) {
             color = (encoded_bits[i] == '1') ? bitOneColor : Qt::white;
         } else {
-            color = Qt::white; // Cor padrão para "sem dado"
+            color = Qt::white;
         }
 
         painter.setBrush(color);

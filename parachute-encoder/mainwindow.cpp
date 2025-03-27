@@ -15,44 +15,38 @@
 #include <QScrollArea>
 #include <QSplitter>
 
+#define STEP_SECTOR 7
+#define MINIMUM_SIZE 300
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle(tr("Parachute Encoder"));
     resize(800, 600);
 
     QHBoxLayout* imageLayout = new QHBoxLayout;
-
-    // Criar um layout horizontal para os widgets
     QWidget* code_container = new QWidget();
     QHBoxLayout* containerLayout = new QHBoxLayout(code_container);
 
-    // Criar um splitter para dividir os widgets em partes iguais
+    // Split equally both representations
     QSplitter* splitter = new QSplitter(Qt::Horizontal);
-    splitter->setChildrenCollapsible(false); // Evita que um suma completamente
+    splitter->setChildrenCollapsible(false); // Avoid hiding widgets
 
-    // Adicionar o parachute_widget primeiro
     parachute_widget = new ParachuteWidget();
-    parachute_widget->setMinimumSize(300, 300); // Garante que tenha tamanho mínimo
+    parachute_widget->setMinimumSize(MINIMUM_SIZE, MINIMUM_SIZE);
 
-    // Criar a área de rolagem e adicionar o PointsWidget
+    // Scroll Area in case of the message being too big
     points_widget = new PointsWidget();
     QScrollArea* scrollArea = new QScrollArea;
     scrollArea->setWidget(points_widget);
     scrollArea->setWidgetResizable(true);
-    scrollArea->setMinimumWidth(300); // Evita que tome todo o espaço
+    scrollArea->setMinimumWidth(MINIMUM_SIZE);
 
-    // Adicionar ambos ao splitter
     splitter->addWidget(parachute_widget);
     splitter->addWidget(scrollArea);
 
-    // Definir pesos para garantir a divisão 50/50
     splitter->setStretchFactor(0, 1);
     splitter->setStretchFactor(1, 1);
 
-    // Adicionar o splitter ao layout principal
     containerLayout->addWidget(splitter);
-
-    // Adicionar esse container ao layout principal
     imageLayout->addWidget(code_container);
 
     // Sliders
@@ -66,23 +60,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     track_slider->setValue(5);
     connect(track_slider, &QSlider::valueChanged, this, &MainWindow::updateTracks);
 
-    // Entrada de mensagem
     messageInput = new QLineEdit;
-    messageInput->setPlaceholderText(tr("Insira a mensagem (ex: ENSICAEN)"));
+    messageInput->setPlaceholderText(tr("Insert the message (default: ENSICAEN_RULES)"));
 
-    // Entrada de caractere inicial
+    // Character to be the 'offset'
     startCharInput = new QLineEdit;
-    startCharInput->setPlaceholderText(tr("Caractere inicial (padrão: @)"));
+    startCharInput->setPlaceholderText(tr("Offset char (default: @)"));
     startCharInput->setMaxLength(1);
 
-    // Botões
-    QPushButton* colorButton = new QPushButton(tr("Escolher Cor do Bit 1"));
-    QPushButton* encodeButton = new QPushButton(tr("Codificar"));
-    QPushButton* applyCharButton = new QPushButton(tr("Aplicar caractere"));
+    // Buttons
+    QPushButton* colorButton = new QPushButton(tr("Choose Bit 1 color"));
+    QPushButton* encodeButton = new QPushButton(tr("Encode"));
+    QPushButton* applyCharButton = new QPushButton(tr("Apply char"));
 
-    // Conexões
+    // Conenctions
     connect(colorButton, &QPushButton::clicked, this, [this]() {
-        QColor chosen = QColorDialog::getColor(bitOneColor, this, tr("Escolha a cor para o bit 1"));
+        QColor chosen = QColorDialog::getColor(bitOneColor, this, tr("Choose Bit 1 color"));
         if (chosen.isValid()) {
             bitOneColor = chosen;
             parachute_widget->setBitOneColor(chosen);
@@ -115,12 +108,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     charLayout->addWidget(applyCharButton);
 
 
-    // Layout final
+    // Final layout
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addLayout(imageLayout);
-    layout->addWidget(new QLabel(tr("Setores")));
+    layout->addWidget(new QLabel(tr("Sectors")));
     layout->addWidget(sector_slider);
-    layout->addWidget(new QLabel(tr("Pistas")));
+    layout->addWidget(new QLabel(tr("Tracks")));
     layout->addWidget(track_slider);
     layout->addLayout(controlsLayout);
     layout->addLayout(charLayout);
@@ -130,12 +123,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(container);
 
     // Menu
-    QMenu* fileMenu = menuBar()->addMenu(tr("Arquivo"));
-    QAction* exitAction = new QAction(tr("Sair"), this);
+    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+    QAction* exitAction = new QAction(tr("Quit"), this);
     connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
     fileMenu->addAction(exitAction);
 
-    QMenu* languageMenu = menuBar()->addMenu(tr("Idioma"));
+    QMenu* languageMenu = menuBar()->addMenu(tr("Language"));
     QAction* englishAction = new QAction("English", this);
     QAction* portugueseAction = new QAction("Português", this);
     QAction* frenchAction = new QAction("Français", this);
@@ -148,10 +141,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     languageMenu->addAction(portugueseAction);
     languageMenu->addAction(frenchAction);
 
-    QMenu* helpMenu = menuBar()->addMenu(tr("Ajuda"));
-    QAction* aboutAction = new QAction(tr("Sobre"), this);
+    QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
+    QAction* aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, &QAction::triggered, this, []() {
-        QMessageBox::about(nullptr, tr("Sobre"), tr("Parachute Encoder v1.0\nDesenvolvido por Raquel e Vinicius."));
+        QMessageBox::about(nullptr, tr("About"), tr("Parachute Encoder v1.0\nDeveloped by Raquel and Vinicius."));
     });
     helpMenu->addAction(aboutAction);
 
@@ -336,8 +329,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 void MainWindow::updateSectors(int value)
 {
-    int adjusted = (value / 7) * 7;
-    if (adjusted < 7) adjusted = 7;
+    int adjusted = (value / STEP_SECTOR) * STEP_SECTOR;
+    if (adjusted < STEP_SECTOR) adjusted = STEP_SECTOR;
 
     sector_slider->blockSignals(true);
     sector_slider->setValue(adjusted);

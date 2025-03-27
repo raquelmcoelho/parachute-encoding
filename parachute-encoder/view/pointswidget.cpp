@@ -28,37 +28,39 @@ void PointsWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    int circleSize = 20; // Tamanho do círculo
-    int spacing = 5; // Espaçamento entre círculos
+    int circleSize = 20; // Circle size
+    int spacing = 5; // Beetween circles
 
-    int numColumns = message.length();  // Cada caractere da mensagem é uma coluna
-    int numRows = 7;  // Sempre 7 linhas
+    int numColumns = message.length();  // Each char is a column
+    int numRows = 7;
 
-    // Ajustar tamanho do widget para suportar scroll se necessário
     int totalWidth = numColumns * (circleSize + spacing);
     int totalHeight = numRows * (circleSize + spacing);
+
+    // Warn scroll if it's not fitting
     setMinimumSize(totalWidth, totalHeight);
 
-    // Percorrer a mensagem e desenhar os círculos
+    // Draw each column
     for (int col = 0; col < numColumns; ++col)
     {
         QChar ch = message.at(col);
-        QString binStr = QString("%1").arg(ch.unicode()-startChar.unicode(), 8, 2, QChar('0')); // Binário de 8 bits
+        QString binStr = QString("%1").arg(ch.unicode()-startChar.unicode(), 8, 2, QChar('0')); // Letter as 8 bits
 
         for (int row = 0; row < 7; ++row)
         {
-            QRect rect(col * (circleSize + spacing), row * (circleSize + spacing), circleSize, circleSize);
+            qDebug() << "iteration: " << 7-row << binStr[7-row] << row << binStr[row];
+            QRect rect(col * (circleSize + spacing), (row) * (circleSize + spacing), circleSize, circleSize);
 
-            if (binStr[7 - row] == '1')  // Bit '1' colorido
+            if (binStr[row+1] == '1')  // Bit '1'
             {
                 painter.setBrush(bitOneColor);
             }
-            else  // Bit '0' branco
+            else  // Bit '0'
             {
                 painter.setBrush(Qt::white);
             }
 
-            painter.drawEllipse(rect); // Desenha um círculo
+            painter.drawEllipse(rect);
         }
     }
 }
