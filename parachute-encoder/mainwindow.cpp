@@ -13,6 +13,7 @@
 #include <QLocale>
 #include <QApplication>
 #include <QScrollArea>
+#include <QSplitter>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -21,28 +22,38 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     QHBoxLayout* imageLayout = new QHBoxLayout;
 
-
+    // Criar um layout horizontal para os widgets
     QWidget* code_container = new QWidget();
     QHBoxLayout* containerLayout = new QHBoxLayout(code_container);
 
+    // Criar um splitter para dividir os widgets em partes iguais
+    QSplitter* splitter = new QSplitter(Qt::Horizontal);
+    splitter->setChildrenCollapsible(false); // Evita que um suma completamente
+
     // Adicionar o parachute_widget primeiro
     parachute_widget = new ParachuteWidget();
-    parachute_widget->setMinimumSize(300, 300); // Garante que ele tenha um tamanho fixo
-    containerLayout->addWidget(parachute_widget);
+    parachute_widget->setMinimumSize(300, 300); // Garante que tenha tamanho mínimo
 
     // Criar a área de rolagem e adicionar o PointsWidget
     points_widget = new PointsWidget();
     QScrollArea* scrollArea = new QScrollArea;
     scrollArea->setWidget(points_widget);
     scrollArea->setWidgetResizable(true);
-    scrollArea->setMinimumWidth(300); // Evita que ele tome todo o espaço
-    containerLayout->addWidget(scrollArea);
+    scrollArea->setMinimumWidth(300); // Evita que tome todo o espaço
+
+    // Adicionar ambos ao splitter
+    splitter->addWidget(parachute_widget);
+    splitter->addWidget(scrollArea);
+
+    // Definir pesos para garantir a divisão 50/50
+    splitter->setStretchFactor(0, 1);
+    splitter->setStretchFactor(1, 1);
+
+    // Adicionar o splitter ao layout principal
+    containerLayout->addWidget(splitter);
 
     // Adicionar esse container ao layout principal
     imageLayout->addWidget(code_container);
-
-
-
 
     // Sliders
     sector_slider = new QSlider(Qt::Horizontal);
@@ -75,18 +86,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         if (chosen.isValid()) {
             bitOneColor = chosen;
             parachute_widget->setBitOneColor(chosen);
+            points_widget->setBitOneColor(bitOneColor);
         }
     });
 
     connect(encodeButton, &QPushButton::clicked, this, [this]() {
         QString message = messageInput->text();
         parachute_widget->setMessage(message);
+        points_widget->setMessage(message);
     });
 
     connect(applyCharButton, &QPushButton::clicked, this, [this]() {
         QString ch = startCharInput->text();
         if (!ch.isEmpty()) {
             parachute_widget->setStartChar(ch.at(0));
+            points_widget->setStartChar(ch.at(0));
         }
     });
 
