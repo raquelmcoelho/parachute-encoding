@@ -1,9 +1,8 @@
 #include "pointswidget.h"
 #include <QPainter>
 
-PointsWidget::PointsWidget(QWidget *parent) : QWidget(parent), bitOneColor(Qt::black)
+PointsWidget::PointsWidget(QString msg, QWidget *parent) : QWidget(parent), message(msg), bitOneColor(Qt::black)
 {
-    message = "ENSICAEN"; // Mensagem padrão
 }
 
 void PointsWidget::setMessage(const QString &msg)
@@ -15,6 +14,12 @@ void PointsWidget::setMessage(const QString &msg)
 void PointsWidget::setBitOneColor(const QColor &color)
 {
     bitOneColor = color;
+    update();
+}
+
+void PointsWidget::setStartChar(QChar c)
+{
+    startChar = c;
     update();
 }
 
@@ -38,7 +43,7 @@ void PointsWidget::paintEvent(QPaintEvent *event)
     for (int col = 0; col < numColumns; ++col)
     {
         QChar ch = message.at(col);
-        QString binStr = QString("%1").arg(ch.unicode(), 8, 2, QChar('0')); // Binário de 8 bits
+        QString binStr = QString("%1").arg(ch.unicode()-startChar.unicode(), 8, 2, QChar('0')); // Binário de 8 bits
 
         for (int row = 0; row < 7; ++row)
         {
