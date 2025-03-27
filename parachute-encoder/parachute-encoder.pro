@@ -27,13 +27,12 @@ HEADERS += \
     presenter/parachutepresenter.h \
     view/pointswidget.h
 
-FORMS += \
-    view/mainwindow.ui
+FORMS +=
 
 TRANSLATIONS += \
-    translations/parachute_encoder_en_150.ts \
-    translations/parachute_encoder_fr_FR.ts \
-    translations/parachute_encoder_pt_BR.ts
+    translations/parachute_encoder_en.ts \
+    translations/parachute_encoder_fr.ts \
+    translations/parachute_encoder_pt.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations

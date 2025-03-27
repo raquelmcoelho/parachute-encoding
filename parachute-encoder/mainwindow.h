@@ -28,6 +28,7 @@ private:
     QSlider* track_slider;
     QColor bitOneColor = Qt::red;
 
+    QTranslator *translator;
     QLineEdit* messageInput;
     QLineEdit* startCharInput;
 

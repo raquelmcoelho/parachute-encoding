@@ -48,7 +48,6 @@ void PointsWidget::paintEvent(QPaintEvent *event)
 
         for (int row = 0; row < 7; ++row)
         {
-            qDebug() << "iteration: " << 7-row << binStr[7-row] << row << binStr[row];
             QRect rect(col * (circleSize + spacing), (row) * (circleSize + spacing), circleSize, circleSize);
 
             if (binStr[row+1] == '1')  // Bit '1'

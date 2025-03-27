@@ -19,6 +19,8 @@
 #define MINIMUM_SIZE 300
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
+    this->translator = new QTranslator(this);
+
     setWindowTitle(tr("Parachute Encoder"));
     resize(800, 600);
 
@@ -348,10 +350,13 @@ void MainWindow::updateTracks(int value)
 
 void MainWindow::changeLanguage(const QString& locale)
 {
-    static QTranslator translator;
-    qApp->removeTranslator(&translator);
-    if (translator.load(":/translations/parachute_" + locale + ".ts")) {
-        qApp->installTranslator(&translator);
+
+    QString path(qApp->applicationDirPath() + "/.qm");
+    qDebug() << "Trying to change language" << path;
+    qApp->removeTranslator(translator);
+    if (translator->load("parachute_encoder_" + locale + ".qm", path)) {
+        qDebug() << "Succeed to change language";
+        qApp->installTranslator(translator);
     }
     setWindowTitle(tr("Parachute Encoder"));
 }
