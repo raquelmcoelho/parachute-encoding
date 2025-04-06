@@ -9,19 +9,11 @@ class PointsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PointsWidget(QString msg = "ENSICAEN_RULES", QWidget *parent = nullptr);
-    void setMessage(const QString &msg);
-    void setBitOneColor(const QColor &color);
-    void setStartChar(QChar c);
-    QString encodeMessage();
+    explicit PointsWidget(QWidget *parent = nullptr);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
-private:
-    QString message;
-    QColor bitOneColor = Qt::black;
-    QChar startChar = '@';
 
 };
 

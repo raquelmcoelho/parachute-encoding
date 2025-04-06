@@ -10,7 +10,6 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
     model/model.cpp \
     presenter/presenter.cpp \
     view/parachutewidget.cpp \
@@ -18,7 +17,6 @@ SOURCES += \
     view/view.cpp
 
 HEADERS += \
-    mainwindow.h \
     model/model.h \
     presenter/presenter.h \
     view/parachutewidget.h \

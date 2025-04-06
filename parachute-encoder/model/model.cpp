@@ -1,13 +1,5 @@
 #include "model.h"
 
-Model *Model::getInstance() {
-    Model * instance = nullptr;
-    if(instance == nullptr) {
-        instance = new Model();
-    }
-    return instance;
-}
-
 Model::Model(){
     loadFromDefaultValues();
 }
@@ -15,14 +7,24 @@ Model::Model(){
 Model::~Model(){
 }
 
+QString Model::getEncodedMessage() {
+    QString binary_sequence;
+
+    for (QChar c : this->clear_message)
+    {
+        binary_sequence += QString::number(c.unicode() - this->offset_char.unicode(), 2).rightJustified(this->size, '0');
+    }
+    return binary_sequence;
+}
+
 void Model::loadFromDefaultValues() {
-    setBase(7);
+    setSize(7);
     setSectors(21);
     setTracks(5);
     setClearMessage("ENSICAEN_RULES");
     setOffsetChar('@');
     setLanguage("en");
-    // TODO: put to be white and black
+    // TODO: put it to be white and black
     setBitOneColor(QColor(0, 255, 0));
     setBitZeroColor(QColor(255, 0, 0));
     setAddPattern(false);
@@ -38,19 +40,19 @@ void Model::exportConfigFile() {
 }
 
 
-void Model::setBase(int value){
-    if(this->base == value) {
+void Model::setSize(int value){
+    if(this->size == value) {
         return;
     }
 
     if(value == 7 || value == 10) {
-        this->base = value;
-        emit baseChanged();
+        this->size = value;
+        emit modelChanged();
     }
 }
 
-int Model::getBase(){
-    return this->base;
+int Model::getSize(){
+    return this->size;
 }
 
 void Model::setTracks(int value){
@@ -58,7 +60,7 @@ void Model::setTracks(int value){
         return;
     }
     this->tracks = value;
-    emit tracksChanged();
+    emit modelChanged();
 }
 
 int Model::getTracks(){
@@ -69,10 +71,10 @@ void Model::setSectors(int value){
     if(this->sectors == value) {
         return;
     }
-    // Check if the value is a multiple of the base
-    if(!(value % this->base)) {
+    // Check if the value is a multiple of the size
+    if(!(value % this->size)) {
         this->sectors = value;
-        emit sectorsChanged();
+        emit modelChanged();
     }
 }
 
@@ -85,7 +87,7 @@ void Model::setClearMessage(QString value) {
         return;
     }
     this->clear_message = value;
-    emit clearMessageChanged();
+    emit modelChanged();
 }
 
 QString Model::getClearMessage() {
@@ -97,7 +99,7 @@ void Model::setOffsetChar(QChar value) {
         return;
     }
     this->offset_char = value;
-    emit offsetCharChanged();
+    emit modelChanged();
 }
 
 QChar Model::getOffsetChar() {
@@ -113,7 +115,7 @@ void Model::setLanguage(QString value) {
     } else {
         this->language = "en";
     }
-    emit languageChanged();
+    emit modelChanged();
 }
 
 QString Model::getLanguage() {
@@ -125,7 +127,7 @@ void Model::setBitOneColor(QColor value) {
         return;
     }
     this->bitOneColor = value;
-    emit bitOneColorChanged();
+    emit modelChanged();
 }
 QColor Model::getBitOneColor() {
     return this->bitOneColor;
@@ -135,7 +137,7 @@ void Model::setBitZeroColor(QColor value) {
         return;
     }
     this->bitZeroColor = value;
-    emit bitZeroColorChanged();
+    emit modelChanged();
 }
 QColor Model::getBitZeroColor() {
     return this->bitZeroColor;
@@ -145,7 +147,7 @@ void Model::setAddPattern(bool value) {
         return;
     }
     this->addPattern = value;
-    emit addPatternChanged();
+    emit modelChanged();
 }
 bool Model::getAddPattern() {
     return this->addPattern;
@@ -155,7 +157,7 @@ void Model::setAddRandomColor(bool value) {
         return;
     }
     this->addRandomColor = value;
-    emit addRandomColorChanged();
+    emit modelChanged();
 }
 bool Model::getAddRandomColor() {
     return this->addRandomColor;
