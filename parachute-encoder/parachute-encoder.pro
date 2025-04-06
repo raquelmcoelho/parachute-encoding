@@ -11,17 +11,19 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    model/parachutemodel.cpp \
-    presenter/parachutepresenter.cpp \
+    model/model.cpp \
+    presenter/presenter.cpp \
     view/parachutewidget.cpp \
-    view/pointswidget.cpp
+    view/pointswidget.cpp \
+    view/view.cpp
 
 HEADERS += \
     mainwindow.h \
-    model/parachutemodel.h \
-    presenter/parachutepresenter.h \
+    model/model.h \
+    presenter/presenter.h \
     view/parachutewidget.h \
-    view/pointswidget.h
+    view/pointswidget.h \
+    view/view.h
 
 FORMS +=
 
