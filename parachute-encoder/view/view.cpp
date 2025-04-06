@@ -113,6 +113,7 @@ View::View(QWidget *parent) : QMainWindow(parent)
         }
     });
 
+
     // Layouts de controle
     QHBoxLayout* controlsLayout = new QHBoxLayout;
     controlsLayout->addWidget(messageInput);
@@ -123,6 +124,20 @@ View::View(QWidget *parent) : QMainWindow(parent)
     charLayout->addWidget(startCharInput);
     charLayout->addWidget(applyCharButton);
 
+
+    randomColorCheck = new QCheckBox(tr("Random color for bits"));
+    connect(randomColorCheck, &QCheckBox::toggled, this, [this](bool checked){
+        emit randomColorToggled(checked);
+    });
+
+    sizeBitCheck = new QCheckBox(tr("Toggle 7/10 Tracks"));
+    connect(sizeBitCheck, &QCheckBox::clicked, this, [this](bool checked){
+        emit toggleTrackRequested(checked ? 10 : 7);
+    });
+
+    QHBoxLayout* checkBoxes = new QHBoxLayout;
+    checkBoxes->addWidget(randomColorCheck);
+    checkBoxes->addWidget(sizeBitCheck);
 
     // Final layout
     QVBoxLayout* layout = new QVBoxLayout;
@@ -135,6 +150,7 @@ View::View(QWidget *parent) : QMainWindow(parent)
     layout->addWidget(track_slider);
     layout->addLayout(controlsLayout);
     layout->addLayout(charLayout);
+    layout->addLayout(checkBoxes);
 
     QWidget* container = new QWidget;
     container->setLayout(layout);
@@ -146,17 +162,21 @@ View::View(QWidget *parent) : QMainWindow(parent)
     connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
 
     exportAction = new QAction(tr("Export..."), this);
-    importAction = new QAction(tr("Import..."), this);
 
     connect(exportAction, &QAction::triggered, this, [this]() {
         QString path = QFileDialog::getSaveFileName(this, tr("Export configuration"), "", tr("JSON Files (*.json)"));
         if (!path.isEmpty()) emit exportJson(path);
     });
 
+    importAction = new QAction(tr("Import..."), this);
     connect(importAction, &QAction::triggered, this, [this]() {
         QString path = QFileDialog::getOpenFileName(this, tr("Import configuration"), "", tr("JSON Files (*.json)"));
         if (!path.isEmpty()) emit importJson(path);
     });
+
+    importAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
+    exportAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
+    exitAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
 
     fileMenu->insertAction(exitAction, exportAction);
     fileMenu->insertAction(exitAction, importAction);
@@ -358,6 +378,34 @@ View::View(QWidget *parent) : QMainWindow(parent)
     )";
 
     scrollArea->setStyleSheet(scrollStyle);
+
+    QString checkBoxStyle = R"(
+    QCheckBox {
+        spacing: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #D63384;
+    }
+
+    QCheckBox::indicator {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #FF69B4;
+        border-radius: 6px;
+        background: #FFF0F5;
+    }
+
+    QCheckBox::indicator:checked {
+        background-color: #FF69B4;
+        image: url(:/icons/check-white.png); /* se quiser um ícone de check personalizado */
+    }
+
+    QCheckBox::indicator:hover {
+        border: 2px solid #FF1493;
+    }
+)";
+    randomColorCheck->setStyleSheet(checkBoxStyle);
+    sizeBitCheck->setStyleSheet(checkBoxStyle);
 }
 
 

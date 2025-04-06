@@ -37,7 +37,7 @@ void PointsWidget::paintEvent(QPaintEvent *event)
         QString binStr = QString("%1").arg(encodedBits.at(col), 8, QChar('0')); // Letter as 8 bits
 
         // TODO: verify its exactly eight bits
-        qDebug() << "poins widget char " << binStr;
+        qDebug() << "poins widget char before after " << encodedBits.at(col) << binStr;
         for (int row = 0; row < 7; ++row)
         {
             QRect rect(col * (circleSize + spacing), (row) * (circleSize +

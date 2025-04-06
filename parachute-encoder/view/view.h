@@ -35,7 +35,6 @@ private:
     QPushButton *colorButton;
     QPushButton *encodeButton;
     QPushButton *applyCharButton;
-    QPushButton* toggleButton;
     QLabel *sectors_label;
     QLabel *tracks_label;
     QLineEdit* messageInput;
@@ -50,6 +49,7 @@ private:
     QAction *frenchAction;
     QMenu *helpMenu;
     QAction *aboutAction;
+    QCheckBox* sizeBitCheck;
     QCheckBox* randomColorCheck;
 
 
