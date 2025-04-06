@@ -19,10 +19,21 @@ class ParachuteWidget : public QWidget
 
 public:
     ParachuteWidget(QWidget *parent = nullptr);
+    void updateView(QVector<QString> encodedBits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor);
+
 
 protected:
     void paintEvent(QPaintEvent *event) override;
     QPointF polarToCartesian(QPointF center, double radius, double angle);
+
+private:
+    int sectors;
+    int tracks;
+    QString encodedBits;
+    QColor colorOneBit;
+    QColor colorZeroBit;
+    bool randomColor;
+
 };
 
 #endif // PARACHUTEWIDGET_H

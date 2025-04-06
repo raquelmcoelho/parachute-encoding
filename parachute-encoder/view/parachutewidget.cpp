@@ -7,51 +7,62 @@ ParachuteWidget::ParachuteWidget(QWidget *parent)
 {
 }
 
+void ParachuteWidget::updateView(QVector<QString> encodedBits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor) {
+    this->encodedBits = encodedBits.join(QChar(' '));
+    this->tracks = tracks;
+    this->sectors = sectors;
+    this->colorOneBit = colorOneBit;
+    this->colorZeroBit = colorZeroBit;
+    this->randomColor = randomColor;
+
+    this->update();
+}
+
 void ParachuteWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // int width = this->width();
-    // int height = this->height();
-    // QPointF center(width / 2, height / 2);
-    // double radius = std::min(width, height) / 2 - OFFSET;
+    int width = this->width();
+    int height = this->height();
+    QPointF center(width / 2, height / 2);
+    double radius = std::min(width, height) / 2 - OFFSET;
 
-    // // sector - triangular division which resembles a slice of pizza
-    // // tracks- amount of circles
-    // double angle_step = -360.0 / sectors;
-    // double track_height = radius / tracks;
+    // sector - triangular division which resembles a slice of pizza
+    // tracks- amount of circles
+    double angle_step = -360.0 / this->sectors;
+    double track_height = radius / this->tracks;
 
-    // int total_segments = sectors * tracks;
+    int total_segments = this->sectors * this->tracks;
 
-    // for (int i = 0; i < total_segments; ++i)
-    // {
-    //     int track = i / sectors;
-    //     int sector = i % sectors;
-    //     double inner_radius = track * track_height;
-    //     double outer_radius = (track + 1) * track_height;
-    //     double start_angle = sector * angle_step;
-    //     double end_angle = (sector + 1) * angle_step;
+    for (int i = 0; i < total_segments; ++i)
+    {
+        int track = i / this->sectors;
+        int sector = i % this->sectors;
+        double inner_radius = track * track_height;
+        double outer_radius = (track + 1) * track_height;
+        double start_angle = sector * angle_step;
+        double end_angle = (sector + 1) * angle_step;
 
-    //     QColor color;
+        QColor color;
 
-    //     if (i < encoded_bits.size()) {
-    //         color = (encoded_bits[i] == '1') ? bitOneColor : Qt::white;
-    //     } else {
-    //         color = Qt::white;
-    //     }
+        if (i < this->encodedBits.size()) {
+            color = (this->encodedBits[i] == '1') ? this->colorOneBit : this->colorZeroBit;
+        } else {
+            color = this->colorZeroBit;
+        }
 
-    //     painter.setBrush(color);
-    //     painter.setPen(Qt::black);
+        painter.setBrush(color);
+        painter.setPen(Qt::black);
 
-    //     QPolygonF polygon;
-    //     polygon << polarToCartesian(center, outer_radius, start_angle)
-    //             << polarToCartesian(center, outer_radius, end_angle)
-    //             << polarToCartesian(center, inner_radius, end_angle)
-    //             << polarToCartesian(center, inner_radius, start_angle);
+        QPolygonF polygon;
+        polygon << polarToCartesian(center, outer_radius, start_angle)
+                << polarToCartesian(center, outer_radius, end_angle)
+                << polarToCartesian(center, inner_radius, end_angle)
+                << polarToCartesian(center, inner_radius, start_angle);
 
-    //     painter.drawPolygon(polygon);
-    // }
+        painter.drawPolygon(polygon);
+    }
 }
 
 QPointF ParachuteWidget::polarToCartesian(QPointF center, double radius, double angle)

@@ -13,7 +13,7 @@ public:
     Model();
     ~Model();
 
-    QString getEncodedMessage();
+    QVector<QString> getEncodedMessage();
 
     // TODO
     void loadFromConfigFile();
@@ -56,6 +56,7 @@ private:
 
 signals:
     void modelChanged();
+    void modelLanguageChanged();
 };
 
 #endif // MODEL_H

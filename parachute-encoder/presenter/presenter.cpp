@@ -1,6 +1,7 @@
 #include "presenter.h"
 
 Presenter::Presenter(Model* model, View* view) : model(model), view(view) {
+
     connect(view, &View::sizeChanged, this, &Presenter::onSizeChanged);
     connect(view, &View::tracksChanged, this, &Presenter::onTracksChanged);
     connect(view, &View::sectorsChanged, this, &Presenter::onSectorsChanged);
@@ -13,9 +14,22 @@ Presenter::Presenter(Model* model, View* view) : model(model), view(view) {
     connect(view, &View::addRandomColorChanged, this, &Presenter::onAddRandomColorChanged);
 
     connect(model, &Model::modelChanged, this, [this]() {
-        // TODO: thing about update view
-        // this->view->updateView();
+        this->view->updateOutput(
+            this->model->getEncodedMessage(),
+            this->model->getTracks(),
+            this->model->getSectors(),
+            this->model->getBitOneColor(),
+            this->model->getBitZeroColor(),
+            this->model->getAddRandomColor()
+            );
     });
+
+    connect(model, &Model::modelLanguageChanged, this, [this]() {
+        this->view->updateLanguage(this->model->getLanguage());
+    });
+
+
+    this->model->loadFromDefaultValues();
 }
 
 void Presenter::onSizeChanged(int value){
@@ -37,14 +51,6 @@ void Presenter::onOffsetCharChanged(QChar value){
 }
 void Presenter::onLanguageChanged(QString value){
     model->setLanguage(value);
-
-    // QString path(qApp->applicationDirPath() + "/.qm");
-    // qApp->removeTranslator(translator);
-    // if (translator->load("parachute_encoder_" + locale + ".qm", path)) {
-    //     qApp->installTranslator(translator);
-    // }
-
-    // emit languageChanged();
 }
 void Presenter::onBitOneColorChanged(QColor value){
     model->setBitOneColor(value);

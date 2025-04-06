@@ -1,18 +1,18 @@
 #include "model.h"
 
 Model::Model(){
-    loadFromDefaultValues();
 }
 
 Model::~Model(){
 }
 
-QString Model::getEncodedMessage() {
-    QString binary_sequence;
+QVector<QString> Model::getEncodedMessage() {
+    QVector<QString> binary_sequence;
 
     for (QChar c : this->clear_message)
     {
-        binary_sequence += QString::number(c.unicode() - this->offset_char.unicode(), 2).rightJustified(this->size, '0');
+        binary_sequence.append(QString::number(c.unicode() - this->offset_char.unicode(), 2)
+                               .rightJustified(this->size, '0'));
     }
     return binary_sequence;
 }
@@ -24,9 +24,8 @@ void Model::loadFromDefaultValues() {
     setClearMessage("ENSICAEN_RULES");
     setOffsetChar('@');
     setLanguage("en");
-    // TODO: put it to be white and black
-    setBitOneColor(QColor(0, 255, 0));
-    setBitZeroColor(QColor(255, 0, 0));
+    setBitOneColor(QColor(0,0,0));
+    setBitZeroColor(QColor(255, 255, 255));
     setAddPattern(false);
     setAddRandomColor(false);
 }
@@ -115,7 +114,7 @@ void Model::setLanguage(QString value) {
     } else {
         this->language = "en";
     }
-    emit modelChanged();
+    emit modelLanguageChanged();
 }
 
 QString Model::getLanguage() {

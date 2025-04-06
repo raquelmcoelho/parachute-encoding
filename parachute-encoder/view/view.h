@@ -19,7 +19,9 @@ class View : public QMainWindow
 public:
     View(QWidget *parent=nullptr);
     ~View();
-    void createView();
+
+    void updateOutput(QVector<QString> encoded_bits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor);
+    void updateLanguage(QString locale);
 
 private:
     // TODO: decide where to put the translator

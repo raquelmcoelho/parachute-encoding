@@ -67,7 +67,6 @@ View::View(QWidget *parent) : QMainWindow(parent)
         sector_slider->blockSignals(false);
 
         emit sectorsChanged(value);
-        parachute_widget->update();
     });
 
     track_slider = new QSlider(Qt::Horizontal);
@@ -75,7 +74,6 @@ View::View(QWidget *parent) : QMainWindow(parent)
     track_slider->setValue(5);
     connect(track_slider, &QSlider::valueChanged, this, [this](int value){
         emit tracksChanged(value);
-        parachute_widget->update();
     });
 
     messageInput = new QLineEdit;
@@ -166,22 +164,6 @@ View::View(QWidget *parent) : QMainWindow(parent)
         QMessageBox::about(nullptr, tr("About"), tr("Parachute Encoder v1.0\nDeveloped by Raquel and Vinicius."));
     });
     helpMenu->addAction(aboutAction);
-
-    connect(this, &View::languageChanged, this, [this]() {
-        setWindowTitle(QObject::tr("Parachute Encoder"));
-        messageInput->setPlaceholderText(QObject::tr("Insert the message (default: ENSICAEN_RULES)"));
-        startCharInput->setPlaceholderText(QObject::tr("Offset char (default: @)"));
-        colorButton->setText(QObject::tr("Choose Bit 1 color"));
-        encodeButton->setText(QObject::tr("Encode"));
-        applyCharButton->setText(QObject::tr("Apply char"));
-        sectors_label->setText(QObject::tr("Sectors"));
-        tracks_label->setText(QObject::tr("Tracks"));
-        exitAction->setText(QObject::tr("Quit"));
-        fileMenu->setTitle(QObject::tr("File"));
-        languageMenu->setTitle(QObject::tr("Language"));
-        helpMenu->setTitle(QObject::tr("Help"));
-        aboutAction->setText(QObject::tr("About"));
-    });
 
     // CSS
     QString sliderStyle = R"(
@@ -358,6 +340,33 @@ View::View(QWidget *parent) : QMainWindow(parent)
     )";
 
     scrollArea->setStyleSheet(scrollStyle);
+}
 
 
+void View::updateOutput(QVector<QString> encoded_bits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor) {
+    parachute_widget->updateView(encoded_bits, tracks, sectors, colorOneBit, colorZeroBit, randomColor);
+    points_widget->updateView(encoded_bits, colorOneBit, colorZeroBit, randomColor);
+}
+
+void View::updateLanguage(QString locale) {
+    QString path(qApp->applicationDirPath() + "/.qm");
+    qApp->removeTranslator(translator);
+    if (translator->load("parachute_encoder_" + locale + ".qm", path)) {
+        qApp->installTranslator(translator);
+    }
+
+    setWindowTitle(QObject::tr("Parachute Encoder"));
+    messageInput->setPlaceholderText(
+        QObject::tr("Insert the message (default: ENSICAEN_RULES)"));
+    startCharInput->setPlaceholderText(QObject::tr("Offset char (default: @)"));
+    colorButton->setText(QObject::tr("Choose Bit 1 color"));
+    encodeButton->setText(QObject::tr("Encode"));
+    applyCharButton->setText(QObject::tr("Apply char"));
+    sectors_label->setText(QObject::tr("Sectors"));
+    tracks_label->setText(QObject::tr("Tracks"));
+    exitAction->setText(QObject::tr("Quit"));
+    fileMenu->setTitle(QObject::tr("File"));
+    languageMenu->setTitle(QObject::tr("Language"));
+    helpMenu->setTitle(QObject::tr("Help"));
+    aboutAction->setText(QObject::tr("About"));
 }

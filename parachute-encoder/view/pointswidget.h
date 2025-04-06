@@ -10,10 +10,16 @@ class PointsWidget : public QWidget
 
 public:
     explicit PointsWidget(QWidget *parent = nullptr);
+    void updateView(QVector<QString> encodedBits, QColor colorOneBit, QColor colorZeroBit, bool randomColor);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
+private:
+    QVector<QString> encodedBits;
+    QColor colorOneBit;
+    QColor colorZeroBit;
+    bool randomColor;
 
 };
 
