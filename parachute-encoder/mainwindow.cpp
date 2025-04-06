@@ -9,7 +9,6 @@
 #include <QLineEdit>
 #include <QColorDialog>
 #include <QMessageBox>
-#include <QTranslator>
 #include <QLocale>
 #include <QApplication>
 #include <QScrollArea>
@@ -71,9 +70,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     startCharInput->setMaxLength(1);
 
     // Buttons
-    QPushButton* colorButton = new QPushButton(tr("Choose Bit 1 color"));
-    QPushButton* encodeButton = new QPushButton(tr("Encode"));
-    QPushButton* applyCharButton = new QPushButton(tr("Apply char"));
+    colorButton = new QPushButton(tr("Choose Bit 1 color"));
+    encodeButton = new QPushButton(tr("Encode"));
+    applyCharButton = new QPushButton(tr("Apply char"));
 
     // Conenctions
     connect(colorButton, &QPushButton::clicked, this, [this]() {
@@ -113,9 +112,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Final layout
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addLayout(imageLayout);
-    layout->addWidget(new QLabel(tr("Sectors")));
+    sectors_label = new QLabel(tr("Sectors"));
+    tracks_label = new QLabel(tr("Tracks"));
+    layout->addWidget(sectors_label);
     layout->addWidget(sector_slider);
-    layout->addWidget(new QLabel(tr("Tracks")));
+    layout->addWidget(tracks_label);
     layout->addWidget(track_slider);
     layout->addLayout(controlsLayout);
     layout->addLayout(charLayout);
@@ -125,15 +126,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(container);
 
     // Menu
-    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
-    QAction* exitAction = new QAction(tr("Quit"), this);
+    fileMenu = menuBar()->addMenu(tr("File"));
+    exitAction = new QAction(tr("Quit"), this);
     connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
     fileMenu->addAction(exitAction);
 
-    QMenu* languageMenu = menuBar()->addMenu(tr("Language"));
-    QAction* englishAction = new QAction("English", this);
-    QAction* portugueseAction = new QAction("Português", this);
-    QAction* frenchAction = new QAction("Français", this);
+    languageMenu = menuBar()->addMenu(tr("Language"));
+    englishAction = new QAction("English", this);
+    portugueseAction = new QAction("Português", this);
+    frenchAction = new QAction("Français", this);
+
 
     connect(englishAction, &QAction::triggered, this, [this]() { changeLanguage("en"); });
     connect(portugueseAction, &QAction::triggered, this, [this]() { changeLanguage("pt"); });
@@ -143,12 +145,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     languageMenu->addAction(portugueseAction);
     languageMenu->addAction(frenchAction);
 
-    QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-    QAction* aboutAction = new QAction(tr("About"), this);
+    helpMenu = menuBar()->addMenu(tr("Help"));
+    aboutAction = new QAction(tr("About"), this);
     connect(aboutAction, &QAction::triggered, this, []() {
         QMessageBox::about(nullptr, tr("About"), tr("Parachute Encoder v1.0\nDeveloped by Raquel and Vinicius."));
     });
     helpMenu->addAction(aboutAction);
+
+    connect(this, &MainWindow::languageChanged, this, [this]() {
+        setWindowTitle(QObject::tr("Parachute Encoder"));
+        messageInput->setPlaceholderText(QObject::tr("Insert the message (default: ENSICAEN_RULES)"));
+        startCharInput->setPlaceholderText(QObject::tr("Offset char (default: @)"));
+        colorButton->setText(QObject::tr("Choose Bit 1 color"));
+        encodeButton->setText(QObject::tr("Encode"));
+        applyCharButton->setText(QObject::tr("Apply char"));
+        sectors_label->setText(QObject::tr("Sectors"));
+        tracks_label->setText(QObject::tr("Tracks"));
+        exitAction->setText(QObject::tr("Quit"));
+        fileMenu->setTitle(QObject::tr("File"));
+        languageMenu->setTitle(QObject::tr("Language"));
+        helpMenu->setTitle(QObject::tr("Help"));
+        aboutAction->setText(QObject::tr("About"));
+    });
 
     // CSS
     QString sliderStyle = R"(
@@ -352,11 +370,10 @@ void MainWindow::changeLanguage(const QString& locale)
 {
 
     QString path(qApp->applicationDirPath() + "/.qm");
-    qDebug() << "Trying to change language" << path;
     qApp->removeTranslator(translator);
     if (translator->load("parachute_encoder_" + locale + ".qm", path)) {
-        qDebug() << "Succeed to change language";
         qApp->installTranslator(translator);
     }
-    setWindowTitle(tr("Parachute Encoder"));
+
+    emit languageChanged();
 }

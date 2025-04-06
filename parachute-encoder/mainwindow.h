@@ -5,6 +5,8 @@
 #include <QSlider>
 #include <QColor>
 #include <QLineEdit>
+#include <QTranslator>
+#include <QPushButton>
 #include "view/parachutewidget.h"
 #include "view/pointswidget.h"
 
@@ -27,10 +29,16 @@ private:
     QSlider* sector_slider;
     QSlider* track_slider;
     QColor bitOneColor = Qt::red;
-
+    QPushButton *colorButton, *encodeButton, *applyCharButton;
+    QLabel *sectors_label, *tracks_label;
     QTranslator *translator;
     QLineEdit* messageInput;
     QLineEdit* startCharInput;
+    QMenu *fileMenu, *languageMenu, *helpMenu;
+    QAction *exitAction, *englishAction, *portugueseAction, *frenchAction, *aboutAction;
+
+signals:
+    void languageChanged();
 
 };
 
