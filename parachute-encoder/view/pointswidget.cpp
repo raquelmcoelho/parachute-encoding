@@ -35,9 +35,10 @@ void PointsWidget::paintEvent(QPaintEvent *event)
     for (int col = 0; col < numColumns; ++col)
     {
         QString binStr = QString("%1").arg(encodedBits.at(col), 8, QChar('0')); // Letter as 8 bits
+        binStr = binStr.right(8);
 
-        // TODO: verify its exactly eight bits
-        qDebug() << "poins widget char before after " << encodedBits.at(col) << binStr;
+        // TODO: add pattern
+        // TODO: translate new things
         for (int row = 0; row < 7; ++row)
         {
             QRect rect(col * (circleSize + spacing), (row) * (circleSize +

@@ -66,7 +66,7 @@ signals:
     void addRandomColorChanged(bool);
     void exportJson(const QString& path);
     void importJson(const QString& path);
-    void toggleTrackRequested(int value);  // 7 or 10
+    void toggleSizeRequested(int value);  // 7 or 10
     void randomColorToggled(bool enabled);
 };
 

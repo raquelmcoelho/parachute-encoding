@@ -14,7 +14,7 @@ Presenter::Presenter(Model* model, View* view) : model(model), view(view) {
     connect(view, &View::addRandomColorChanged, this, &Presenter::onAddRandomColorChanged);
     connect(view, &View::exportJson, this, &Presenter::onExportJson);
     connect(view, &View::importJson, this, &Presenter::onImportJson);
-    connect(view, &View::toggleTrackRequested, this, &Presenter::onToggleTrackRequested);
+    connect(view, &View::toggleSizeRequested, this, &Presenter::onToggleSizeRequested);
     connect(view, &View::randomColorToggled, this, &Presenter::onRandomColorToggled);
 
     connect(model, &Model::modelChanged, this, [this]() {
@@ -75,8 +75,8 @@ void Presenter::onExportJson(const QString& path){
 void Presenter::onImportJson(const QString& path){
     model->loadFromFile(path);
 }
-void Presenter::onToggleTrackRequested(int value){
-    model->setTracks(value);
+void Presenter::onToggleSizeRequested(int value){
+    model->setSize(value);
 }
 void Presenter::onRandomColorToggled(bool enabled){
     model->setAddRandomColor(enabled);

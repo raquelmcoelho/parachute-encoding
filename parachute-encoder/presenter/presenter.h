@@ -27,7 +27,7 @@ private slots:
     void onAddRandomColorChanged(bool value);
     void onExportJson(const QString& path);
     void onImportJson(const QString& path);
-    void onToggleTrackRequested(int value);
+    void onToggleSizeRequested(int value);
     void onRandomColorToggled(bool enabled);
     
 private:

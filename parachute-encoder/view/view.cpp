@@ -17,6 +17,7 @@ View::~View() {}
 #include <QScrollArea>
 #include <QSplitter>
 #include <QFileDialog>
+#include <QShortcut>
 
 #define STEP_SECTOR 7
 #define MINIMUM_SIZE 300
@@ -57,22 +58,15 @@ View::View(QWidget *parent) : QMainWindow(parent)
 
     // Sliders
     sector_slider = new QSlider(Qt::Horizontal);
-    sector_slider->setRange(7, 35);
-    sector_slider->setValue(21);
+    sector_slider->setRange(1, 100);
+    sector_slider->setValue(1);
     connect(sector_slider, &QSlider::valueChanged, this, [this](int value) {
         // TODO: get from presenter the step sector
-        int adjusted = (value / STEP_SECTOR) * STEP_SECTOR;
-        if (adjusted < STEP_SECTOR) adjusted = STEP_SECTOR;
-
-        sector_slider->blockSignals(true);
-        sector_slider->setValue(adjusted);
-        sector_slider->blockSignals(false);
-
         emit sectorsChanged(value);
     });
 
     track_slider = new QSlider(Qt::Horizontal);
-    track_slider->setRange(2, 10);
+    track_slider->setRange(2, 30);
     track_slider->setValue(5);
     connect(track_slider, &QSlider::valueChanged, this, [this](int value){
         emit tracksChanged(value);
@@ -90,6 +84,9 @@ View::View(QWidget *parent) : QMainWindow(parent)
     colorButton = new QPushButton(tr("Choose Bit 1 color"));
     encodeButton = new QPushButton(tr("Encode"));
     applyCharButton = new QPushButton(tr("Apply char"));
+
+    QShortcut* encodeShortcut = new QShortcut(QKeySequence(Qt::Key_Return), this);
+    connect(encodeShortcut, &QShortcut::activated, encodeButton, &QPushButton::click);
 
     // Connections
     connect(colorButton, &QPushButton::clicked, this, [this]() {
@@ -130,9 +127,9 @@ View::View(QWidget *parent) : QMainWindow(parent)
         emit randomColorToggled(checked);
     });
 
-    sizeBitCheck = new QCheckBox(tr("Toggle 7/10 Tracks"));
+    sizeBitCheck = new QCheckBox(tr("Toggle 7/10 Bits"));
     connect(sizeBitCheck, &QCheckBox::clicked, this, [this](bool checked){
-        emit toggleTrackRequested(checked ? 10 : 7);
+        emit toggleSizeRequested(checked ? 10 : 7);
     });
 
     QHBoxLayout* checkBoxes = new QHBoxLayout;
@@ -412,6 +409,11 @@ View::View(QWidget *parent) : QMainWindow(parent)
 void View::updateOutput(QVector<QString> encoded_bits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor) {
     parachute_widget->updateView(encoded_bits, tracks, sectors, colorOneBit, colorZeroBit, randomColor);
     points_widget->updateView(encoded_bits, colorOneBit, colorZeroBit, randomColor);
+
+    sector_slider->blockSignals(true);
+    sector_slider->setValue(sectors);
+    sector_slider->blockSignals(false);
+
 }
 
 void View::updateLanguage(QString locale) {

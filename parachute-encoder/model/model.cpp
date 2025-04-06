@@ -81,6 +81,7 @@ void Model::setSize(int value){
 
     if(value == 7 || value == 10) {
         this->size = value;
+        setSectors(this->sectors);
         emit modelChanged();
     }
 }
@@ -102,14 +103,10 @@ int Model::getTracks(){
 }
 
 void Model::setSectors(int value){
-    if(this->sectors == value) {
-        return;
-    }
-    // Check if the value is a multiple of the size
-    if(!(value % this->size)) {
-        this->sectors = value;
-        emit modelChanged();
-    }
+    int adjusted = (value / this->size) * this->size;
+    if (adjusted < this->size) adjusted = this->size;
+    this->sectors = adjusted;
+    emit modelChanged();
 }
 
 int Model::getSectors(){
