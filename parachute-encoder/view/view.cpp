@@ -16,6 +16,7 @@ View::~View() {}
 // #include <QApplication>
 #include <QScrollArea>
 #include <QSplitter>
+#include <QFileDialog>
 
 #define STEP_SECTOR 7
 #define MINIMUM_SIZE 300
@@ -59,6 +60,7 @@ View::View(QWidget *parent) : QMainWindow(parent)
     sector_slider->setRange(7, 35);
     sector_slider->setValue(21);
     connect(sector_slider, &QSlider::valueChanged, this, [this](int value) {
+        // TODO: get from presenter the step sector
         int adjusted = (value / STEP_SECTOR) * STEP_SECTOR;
         if (adjusted < STEP_SECTOR) adjusted = STEP_SECTOR;
 
@@ -89,7 +91,7 @@ View::View(QWidget *parent) : QMainWindow(parent)
     encodeButton = new QPushButton(tr("Encode"));
     applyCharButton = new QPushButton(tr("Apply char"));
 
-    // Conenctions
+    // Connections
     connect(colorButton, &QPushButton::clicked, this, [this]() {
         QColor bitOneColor;
         QColor chosen = QColorDialog::getColor(bitOneColor, this, tr("Choose Bit 1 color"));
@@ -142,6 +144,22 @@ View::View(QWidget *parent) : QMainWindow(parent)
     fileMenu = menuBar()->addMenu(tr("File"));
     exitAction = new QAction(tr("Quit"), this);
     connect(exitAction, &QAction::triggered, this, &QMainWindow::close);
+
+    exportAction = new QAction(tr("Export..."), this);
+    importAction = new QAction(tr("Import..."), this);
+
+    connect(exportAction, &QAction::triggered, this, [this]() {
+        QString path = QFileDialog::getSaveFileName(this, tr("Export configuration"), "", tr("JSON Files (*.json)"));
+        if (!path.isEmpty()) emit exportJson(path);
+    });
+
+    connect(importAction, &QAction::triggered, this, [this]() {
+        QString path = QFileDialog::getOpenFileName(this, tr("Import configuration"), "", tr("JSON Files (*.json)"));
+        if (!path.isEmpty()) emit importJson(path);
+    });
+
+    fileMenu->insertAction(exitAction, exportAction);
+    fileMenu->insertAction(exitAction, importAction);
     fileMenu->addAction(exitAction);
 
     languageMenu = menuBar()->addMenu(tr("Language"));

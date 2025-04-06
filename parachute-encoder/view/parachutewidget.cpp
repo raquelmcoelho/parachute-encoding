@@ -1,4 +1,5 @@
 #include <view/parachutewidget.h>
+#include <QRandomGenerator>
 
 #define OFFSET 10
 
@@ -44,12 +45,17 @@ void ParachuteWidget::paintEvent(QPaintEvent *event)
         double start_angle = sector * angle_step;
         double end_angle = (sector + 1) * angle_step;
 
-        QColor color;
+        QColor color = this->colorZeroBit;
 
-        if (i < this->encodedBits.size()) {
-            color = (this->encodedBits[i] == '1') ? this->colorOneBit : this->colorZeroBit;
-        } else {
-            color = this->colorZeroBit;
+        if (i < this->encodedBits.size() && this->encodedBits[i] == '1') {
+            if(this->randomColor) {
+                int r = QRandomGenerator::global()->bounded(256);
+                int g = QRandomGenerator::global()->bounded(256);
+                int b = QRandomGenerator::global()->bounded(256);
+                color = QColor(r, g, b);
+            } else {
+                color = this->colorOneBit;
+            }
         }
 
         painter.setBrush(color);

@@ -18,13 +18,17 @@ private slots:
     void onSectorsChanged(int value);
 
     // TODO: change all QStrings to reference const
-    void onClearMessageChanged(QString value);
+    void onClearMessageChanged(const QString& value);
     void onOffsetCharChanged(QChar value);
     void onLanguageChanged(QString value);
     void onBitOneColorChanged(QColor value);
     void onBitZeroColorChanged(QColor value);
     void onAddPatternChanged(bool value);
     void onAddRandomColorChanged(bool value);
+    void onExportJson(const QString& path);
+    void onImportJson(const QString& path);
+    void onToggleTrackRequested(int value);
+    void onRandomColorToggled(bool enabled);
     
 private:
     Model* model;

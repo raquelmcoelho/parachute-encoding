@@ -12,6 +12,10 @@ Presenter::Presenter(Model* model, View* view) : model(model), view(view) {
     connect(view, &View::bitZeroColorChanged, this, &Presenter::onBitZeroColorChanged);
     connect(view, &View::addPatternChanged, this, &Presenter::onAddPatternChanged);
     connect(view, &View::addRandomColorChanged, this, &Presenter::onAddRandomColorChanged);
+    connect(view, &View::exportJson, this, &Presenter::onExportJson);
+    connect(view, &View::importJson, this, &Presenter::onImportJson);
+    connect(view, &View::toggleTrackRequested, this, &Presenter::onToggleTrackRequested);
+    connect(view, &View::randomColorToggled, this, &Presenter::onRandomColorToggled);
 
     connect(model, &Model::modelChanged, this, [this]() {
         this->view->updateOutput(
@@ -43,7 +47,7 @@ void Presenter::onSectorsChanged(int value){
 }
 
 // TODO: change all QStrings to reference const
-void Presenter::onClearMessageChanged(QString value){
+void Presenter::onClearMessageChanged(const QString &value){
     model->setClearMessage(value);
 }
 void Presenter::onOffsetCharChanged(QChar value){
@@ -63,5 +67,18 @@ void Presenter::onAddPatternChanged(bool value){
 }
 void Presenter::onAddRandomColorChanged(bool value){
     model->setAddRandomColor(value);
+}
+
+void Presenter::onExportJson(const QString& path){
+    model->saveToFile(path);
+}
+void Presenter::onImportJson(const QString& path){
+    model->loadFromFile(path);
+}
+void Presenter::onToggleTrackRequested(int value){
+    model->setTracks(value);
+}
+void Presenter::onRandomColorToggled(bool enabled){
+    model->setAddRandomColor(enabled);
 }
 

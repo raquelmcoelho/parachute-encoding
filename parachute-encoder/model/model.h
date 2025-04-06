@@ -16,8 +16,10 @@ public:
     QVector<QString> getEncodedMessage();
 
     // TODO
-    void loadFromConfigFile();
-    void exportConfigFile();
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject& obj);
+    bool saveToFile(const QString& filename);
+    bool loadFromFile(const QString& filename);
     void loadFromDefaultValues();
 
     void setSize(int value);
@@ -46,8 +48,8 @@ private:
     int size;
     int tracks;
     int sectors;
-    QString clear_message;
-    QChar offset_char;
+    QString clearMessage;
+    QChar offsetChar;
     QString language;
     QColor bitOneColor;
     QColor bitZeroColor;

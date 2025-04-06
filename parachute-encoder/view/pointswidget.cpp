@@ -1,5 +1,6 @@
 #include "pointswidget.h"
 #include <QPainter>
+#include <QRandomGenerator>
 
 PointsWidget::PointsWidget(QWidget *parent) {
 }
@@ -44,7 +45,14 @@ void PointsWidget::paintEvent(QPaintEvent *event)
 
             if (binStr[row+1] == '1')  // Bit '1'
             {
-                painter.setBrush(this->colorOneBit);
+                if(this->randomColor) {
+                    int r = QRandomGenerator::global()->bounded(256);
+                    int g = QRandomGenerator::global()->bounded(256);
+                    int b = QRandomGenerator::global()->bounded(256);
+                    painter.setBrush(QColor(r, g, b));
+                } else {
+                    painter.setBrush(this->colorOneBit);
+                }
             }
             else  // Bit '0'
             {

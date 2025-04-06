@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QTranslator>
 #include <QPushButton>
+#include <QCheckBox>
 #include "view/parachutewidget.h"
 #include "view/pointswidget.h"
 
@@ -34,31 +35,39 @@ private:
     QPushButton *colorButton;
     QPushButton *encodeButton;
     QPushButton *applyCharButton;
+    QPushButton* toggleButton;
     QLabel *sectors_label;
     QLabel *tracks_label;
     QLineEdit* messageInput;
     QLineEdit* startCharInput;
     QMenu *fileMenu;
     QAction *exitAction;
+    QAction *exportAction;
+    QAction *importAction;
     QMenu *languageMenu;
     QAction *englishAction;
     QAction *portugueseAction;
     QAction *frenchAction;
     QMenu *helpMenu;
     QAction *aboutAction;
+    QCheckBox* randomColorCheck;
 
 
 signals:
     void sizeChanged(int);
     void tracksChanged(int);
     void sectorsChanged(int);
-    void clearMessageChanged(QString);
+    void clearMessageChanged(const QString &);
     void offsetCharChanged(QChar);
     void languageChanged(QString);
     void bitOneColorChanged(QColor);
     void bitZeroColorChanged(QColor);
     void addPatternChanged(bool);
     void addRandomColorChanged(bool);
+    void exportJson(const QString& path);
+    void importJson(const QString& path);
+    void toggleTrackRequested(int value);  // 7 or 10
+    void randomColorToggled(bool enabled);
 };
 
 #endif // VIEW_H
