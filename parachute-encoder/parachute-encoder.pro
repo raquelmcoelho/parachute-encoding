@@ -14,8 +14,6 @@ SOURCES += \
     model/parachutemodel.cpp \
     presenter/parachutepresenter.cpp \
     view/parachutewidget.cpp \
-    model/parachutemodel.cpp \
-    presenter/parachutepresenter.cpp \
     view/pointswidget.cpp
 
 HEADERS += \
@@ -23,8 +21,6 @@ HEADERS += \
     model/parachutemodel.h \
     presenter/parachutepresenter.h \
     view/parachutewidget.h \
-    model/parachutemodel.h \
-    presenter/parachutepresenter.h \
     view/pointswidget.h
 
 FORMS +=
@@ -33,6 +29,7 @@ TRANSLATIONS += \
     translations/parachute_encoder_en.ts \
     translations/parachute_encoder_fr.ts \
     translations/parachute_encoder_pt.ts
+
 
 CONFIG += lrelease
 CONFIG += embed_translations
