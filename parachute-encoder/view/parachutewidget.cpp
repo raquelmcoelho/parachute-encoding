@@ -9,7 +9,10 @@ ParachuteWidget::ParachuteWidget(QWidget *parent)
 }
 
 void ParachuteWidget::updateView(QVector<QString> encodedBits, int tracks, int sectors, QColor colorOneBit, QColor colorZeroBit, bool randomColor) {
-    this->encodedBits = encodedBits.join(QChar(' '));
+    QString joined;
+    for (const auto& str : encodedBits)
+        joined += str;
+    this->encodedBits = joined;
     this->tracks = tracks;
     this->sectors = sectors;
     this->colorOneBit = colorOneBit;

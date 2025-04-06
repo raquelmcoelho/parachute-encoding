@@ -127,7 +127,7 @@ View::View(QWidget *parent) : QMainWindow(parent)
         emit randomColorToggled(checked);
     });
 
-    sizeBitCheck = new QCheckBox(tr("Toggle 7/10 Bits"));
+    sizeBitCheck = new QCheckBox(tr("7/10 Bits"));
     connect(sizeBitCheck, &QCheckBox::clicked, this, [this](bool checked){
         emit toggleSizeRequested(checked ? 10 : 7);
     });

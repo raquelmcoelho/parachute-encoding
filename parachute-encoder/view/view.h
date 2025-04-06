@@ -25,7 +25,6 @@ public:
     void updateLanguage(QString locale);
 
 private:
-    // TODO: decide where to put the translator
     QTranslator *translator;
 
     ParachuteWidget* parachute_widget;
@@ -66,7 +65,7 @@ signals:
     void addRandomColorChanged(bool);
     void exportJson(const QString& path);
     void importJson(const QString& path);
-    void toggleSizeRequested(int value);  // 7 or 10
+    void toggleSizeRequested(int value);
     void randomColorToggled(bool enabled);
 };
 

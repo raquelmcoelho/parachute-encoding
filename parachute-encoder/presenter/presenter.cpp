@@ -25,7 +25,7 @@ Presenter::Presenter(Model* model, View* view) : model(model), view(view) {
             this->model->getBitOneColor(),
             this->model->getBitZeroColor(),
             this->model->getAddRandomColor()
-            );
+        );
     });
 
     connect(model, &Model::modelLanguageChanged, this, [this]() {
@@ -46,7 +46,6 @@ void Presenter::onSectorsChanged(int value){
     model->setSectors(value);
 }
 
-// TODO: change all QStrings to reference const
 void Presenter::onClearMessageChanged(const QString &value){
     model->setClearMessage(value);
 }
